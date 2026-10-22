@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solucionario Interactivo de Química y Física - Disoluciones y Gases</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            },
+            academic: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- MathJax CDN para Fórmulas Matemáticas y Químicas -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      .print-expand { display: block !important; }
+      body { background: white !important; color: black !important; }
+      .card-shadow { box-shadow: none !important; border: 1px solid #ccc !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- TOP HEADER / NAV BAR -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <!-- Brand Title -->
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-gradient-to-br from-brand-500 to-academic-600 text-white rounded-xl shadow-md">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">Solucionario Interactivo de Química</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Disoluciones, Gases, Propiedades Coligativas y Estequiometría (33 Ejercicios Paso a Paso)</p>
+          </div>
+        </div>
+
+        <!-- Controls: Search & Theme Toggle -->
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <!-- Search Input -->
+          <div class="relative flex-1 sm:w-64">
+            <input type="text" id="searchInput" oninput="filterExercises()" placeholder="Buscar ej. 22, Raoult, PAU..." 
+              class="w-full pl-9 pr-8 py-1.5 text-sm bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all"/>
+            <svg class="w-4 h-4 absolute left-2.5 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <button id="clearSearch" onclick="clearSearch()" class="hidden absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+              ✕
+            </button>
+          </div>
+
+          <!-- Print / PDF Button -->
+          <button onclick="window.print()" title="Imprimir / Exportar PDF" class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+          </button>
+
+          <!-- Dark/Light Theme Toggle -->
+          <button onclick="toggleDarkMode()" id="themeToggleBtn" title="Cambiar Tema" class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+            <span id="themeIcon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Indicator Bar -->
+    <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5">
+      <div id="progressBar" class="bg-gradient-to-r from-brand-500 to-academic-500 h-1.5 transition-all duration-300" style="width: 0%;"></div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- HERO & FILTER CONTROLS -->
+    <section class="mb-6 space-y-4 no-print">
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-3">
+        <button onclick="setCategory('all')" id="tab-all" class="filter-tab active-tab px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all bg-brand-600 text-white shadow">
+          Todos (33)
+        </button>
+        <button onclick="setCategory('b1')" id="tab-b1" class="filter-tab px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+          1. Disoluciones y Coligativas (13)
+        </button>
+        <button onclick="setCategory('b2')" id="tab-b2" class="filter-tab px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+          2. Aplica lo Aprendido (6)
+        </button>
+        <button onclick="setCategory('b3')" id="tab-b3" class="filter-tab px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+          3. Leyes de los Gases (11)
+        </button>
+        <button onclick="setCategory('b4')" id="tab-b4" class="filter-tab px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+          4. Fórmulas y Composición (3)
+        </button>
+      </div>
+
+      <!-- Quick Toggles / Stat badges -->
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+        <div class="flex items-center space-x-2">
+          <button onclick="toggleFilterPAU()" id="pauFilterBtn" class="px-2.5 py-1 rounded border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 font-medium hover:bg-amber-100 transition">
+            ⭐ Ver sólo examen PAU
+          </button>
+          <button onclick="toggleFilterCalc()" id="calcFilterBtn" class="px-2.5 py-1 rounded border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-medium hover:bg-emerald-100 transition">
+            🧮 Con Calculadora Interactiva
+          </button>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <span id="counterBadge" class="bg-slate-200 dark:bg-slate-800 px-2.5 py-1 rounded-full font-mono text-slate-700 dark:text-slate-300">
+            Mostrando 33 de 33 ejercicios
+          </span>
+          <span id="completedBadge" class="bg-brand-100 dark:bg-brand-900/60 text-brand-800 dark:text-brand-300 px-2.5 py-1 rounded-full font-medium">
+            0/33 Completados
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXERCISES CONTAINER GRID -->
+    <div id="exercisesContainer" class="space-y-6">
+      <!-- JavaScript will inject cards dynamically -->
+    </div>
+
+    <!-- EMPTY STATE IF NO RESULTS -->
+    <div id="emptyState" class="hidden text-center py-12">
+      <div class="inline-flex p-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 mb-3">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <p class="text-base font-semibold text-slate-600 dark:text-slate-300">No se encontraron ejercicios con ese criterio.</p>
+      <button onclick="resetFilters()" class="mt-2 text-xs font-semibold text-brand-600 hover:underline">Restablecer todos los filtros</button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-12 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-6 text-center text-xs text-slate-500 dark:text-slate-400 no-print">
+    <div class="max-w-7xl mx-auto px-4">
+      <p>Solucionario Completo de Física y Química • Preparación Secundaria y Bachillerato / PAU</p>
+      <p class="mt-1">Todas las resoluciones incluyen conversiones paso a paso y aplicación de leyes químicas teóricas.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT CON DATOS Y LÓGICA DE LA APLICACIÓN -->
+  <script>
+    // DATOS COMPLETOS DE TODOS LOS EJERCICIOS DE LAS 3 IMÁGENES
+    const exercisesData = [
+      // ===== BLOQUE 1: DISOLUCIONES Y PROPIEDADES COLIGATIVAS (Págs 1 y 2) =====
+      {
+        id: "ej22_p1",
+        num: 22,
+        page: "Pág 1",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Concentración en g/L a partir de la Normalidad",
+        pau: false,
+        calc: true,
+        statement: "¿Cuántos gramos por litro de hidróxido de sodio hay en una disolución 0,60 N?",
+        officialSol: "m = 24 g/L",
+        keywords: ["hidróxido de sodio", "NaOH", "normalidad", "gramos por litro", "valencia"],
+        dataText: "Normalidad $N = 0,60\\text{ N}$, Soluto: $\\text{NaOH}$",
+        formulas: "$$M(\\text{NaOH}) = 23 + 16 + 1 = 40\\text{ g/mol}$$\n$$N = M \\times z \\quad (z=1 \\text{ para grupos OH}^-)$$\n$$\\text{Concentración (g/L)} = M \\times M_{\\text{molar}}$$ ",
+        steps: [
+          {
+            title: "1. Identificar la valencia (z) y la Molaridad (M)",
+            desc: "El hidróxido de sodio $\\text{NaOH}$ se disocia liberando $1$ ion $\\text{OH}^-$, por lo que su factor de equivalencia o valencia es $z = 1\\text{ eq/mol}$.\nComo $N = M \\times z$, se deduce que la Molaridad es $M = \\frac{N}{z} = \\frac{0,60}{1} = 0,60\\text{ mol/L}$."
+          },
+          {
+            title: "2. Calcular la Masa Molar del NaOH",
+            desc: "$M(\\text{NaOH}) = A_r(\\text{Na}) + A_r(\\text{O}) + A_r(\\text{H}) = 22,99 + 16,00 + 1,01 = 40,0\\text{ g/mol}$."
+          },
+          {
+            title: "3. Convertir la Molaridad a gramos por litro (g/L)",
+            desc: "$$c (\\text{g/L}) = 0,60\\text{ mol/L} \\times 40,0\\text{ g/mol} = 24\\text{ g/L}$$"
+          }
+        ],
+        calcConfig: {
+          type: "normality_to_gl",
+          label: "Normalidad (N):",
+          defaultVal: 0.60,
+          molarMass: 40,
+          z: 1,
+          unit: "g/L"
+        }
+      },
+      {
+        id: "ej23_p1",
+        num: 23,
+        page: "Pág 1",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Vinagreta: Concentración g/L, Molaridad y preparación de volúmenes",
+        pau: false,
+        calc: true,
+        statement: "Para preparar una vinagreta, se mezclan 100 mL de agua con 5,0 g de sal (NaCl).\na) Calcula la concentración de sal en la disolución en g/L.\nb) Calcula la concentración molar (en mol/L).\nc) Si se desea preparar 250 mL de vinagreta con la misma concentración, ¿cuántos gramos de sal se deben añadir?",
+        officialSol: "a) 50 g/L; b) 0,85 mol/L; c) 12,5 g de NaCl",
+        keywords: ["vinagreta", "NaCl", "agua", "sal", "molaridad", "concentración g/L"],
+        dataText: "$V = 100\\text{ mL} = 0,100\\text{ L}$; $m(\\text{NaCl}) = 5,0\\text{ g}$; $M(\\text{NaCl}) = 58,44\\text{ g/mol}$",
+        formulas: "$$c (\\text{g/L}) = \\frac{m (\\text{g})}{V (\\text{L})}, \\quad M = \\frac{n}{V} = \\frac{m / M_{\\text{molar}}}{V}$$",
+        steps: [
+          {
+            title: "a) Concentración en g/L",
+            desc: "Convertimos el volumen a litros: $V = 100\\text{ mL} = 0,100\\text{ L}$.\n$$c = \\frac{5,0\\text{ g}}{0,100\\text{ L}} = 50\\text{ g/L}$$"
+          },
+          {
+            title: "b) Concentración Molar (M)",
+            desc: "Masa molar del $\\text{NaCl} = 22,99 + 35,45 = 58,44\\text{ g/mol}$.\nMoles de $\\text{NaCl} = n = \\frac{5,0\\text{ g}}{58,44\\text{ g/mol}} = 0,08555\\text{ mol}$.\n$$M = \\frac{0,08555\\text{ mol}}{0,100\\text{ L}} = 0,855\\text{ mol/L} \\approx 0,85\\text{ mol/L}$$"
+          },
+          {
+            title: "c) Gramos de NaCl para 250 mL a la misma concentración",
+            desc: "Convertimos $250\\text{ mL} = 0,250\\text{ L}$. Multiplicando por la concentración en g/L:\n$$m = 50\\text{ g/L} \\times 0,250\\text{ L} = 12,5\\text{ g de NaCl}$$"
+          }
+        ]
+      },
+      {
+        id: "ej26_p2",
+        num: 26,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Fracción molar de agua y etilenglicol",
+        pau: false,
+        calc: false,
+        statement: "Calcula la fracción molar de agua y etilenglicol en una disolución preparada agregando 50 g de etilenglicol y 1000 g de agua.",
+        officialSol: "x_etilenglicol = 0,014; x_agua = 0,986",
+        keywords: ["fracción molar", "etilenglicol", "C2H6O2", "agua"],
+        dataText: "$m(\\text{etilenglicol}) = 50\\text{ g}$; $m(\\text{agua}) = 1000\\text{ g}$; $M(\\text{C}_2\\text{H}_6\\text{O}_2) = 62,07\\text{ g/mol}$; $M(\\text{H}_2\\text{O}) = 18,02\\text{ g/mol}$",
+        formulas: "$$n = \\frac{m}{M}, \\quad x_i = \\frac{n_i}{\\sum n_j}, \\quad x_1 + x_2 = 1$$",
+        steps: [
+          {
+            title: "1. Calcular los moles de cada componente",
+            desc: "Moles de etilenglicol ($n_e$):\n$$n_e = \\frac{50\\text{ g}}{62,07\\text{ g/mol}} = 0,8055\\text{ mol}$$\nMoles de agua ($n_w$):\n$$n_w = \\frac{1000\\text{ g}}{18,02\\text{ g/mol}} = 55,49\\text{ mol}$$"
+          },
+          {
+            title: "2. Calcular los moles totales",
+            desc: "$$n_{\\text{totales}} = n_e + n_w = 0,8055 + 55,49 = 56,30\\text{ mol}$$"
+          },
+          {
+            title: "3. Calcular las fracciones molares",
+            desc: "$$x_{\\text{etilenglicol}} = \\frac{0,8055}{56,30} = 0,0143 \\approx 0,014$$\n$$x_{\\text{agua}} = 1 - 0,0143 = 0,9857 \\approx 0,986$$"
+          }
+        ]
+      },
+      {
+        id: "ej27_p2",
+        num: 27,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Molaridad y Normalidad del Hidróxido de Calcio con riqueza y densidad",
+        pau: false,
+        calc: false,
+        statement: "Una disolución de hidróxido de calcio en agua que contiene un 20 % de hidróxido tiene una densidad de 1,18 g/mL. Calcula su concentración molar y su normalidad.",
+        officialSol: "S: 3,2 mol/L; 6,4 N",
+        keywords: ["hidróxido de calcio", "Ca(OH)2", "riqueza", "densidad", "normalidad", "molaridad"],
+        dataText: "Riqueza $= 20\\%$; $d = 1,18\\text{ g/mL}$; $M(\\text{Ca(OH)}_2) = 74,09\\text{ g/mol}$",
+        formulas: "$$M = \\frac{\\% \\times d(\\text{g/L})}{M_{\\text{molar}}}, \\quad N = M \\times z \\quad (z=2 \\text{ por } 2\\text{ OH}^-)$$",
+        steps: [
+          {
+            title: "1. Tomar una base de cálculo de 1 Litro (1000 mL) de disolución",
+            desc: "Masa de 1 L de disolución: $m_{\\text{dis}} = 1000\\text{ mL} \\times 1,18\\text{ g/mL} = 1180\\text{ g}$.\nMasa de $\\text{Ca(OH)}_2$ puro: $m_{\\text{soluto}} = 1180\\text{ g} \\times 0,20 = 236\\text{ g}$."
+          },
+          {
+            title: "2. Molaridad (M)",
+            desc: "Moles de $\\text{Ca(OH)}_2$: $n = \\frac{236\\text{ g}}{74,09\\text{ g/mol}} = 3,185\\text{ mol}$.\n$$M = \\frac{3,185\\text{ mol}}{1\\text{ L}} = 3,185\\text{ mol/L} \\approx 3,2\\text{ mol/L}$$"
+          },
+          {
+            title: "3. Normalidad (N)",
+            desc: "Dado que cada molécula de $\\text{Ca(OH)}_2$ aporta $2$ grupos $\\text{OH}^-$, la valencia es $z = 2$.\n$$N = M \\times z = 3,185 \\times 2 = 6,37\\text{ N} \\approx 6,4\\text{ N}$$"
+          }
+        ]
+      },
+      {
+        id: "ej28_p2",
+        num: 28,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Gramos de NaOH en medio litro de disolución 1,6 N",
+        pau: false,
+        calc: false,
+        statement: "En medio litro de disolución 1,6 N de hidróxido de sodio, ¿cuántos gramos del soluto hay?",
+        officialSol: "S: 32 g",
+        keywords: ["NaOH", "medio litro", "normalidad", "gramos soluto"],
+        dataText: "$V = 0,5\\text{ L}$; $N = 1,6\\text{ N}$; $M(\\text{NaOH}) = 40,0\\text{ g/mol}$",
+        formulas: "$$N = M \\times z \\quad (z=1) \\implies M = 1,6\\text{ mol/L}, \\quad m = M \\times V \\times M_{\\text{molar}}$$ ",
+        steps: [
+          {
+            title: "1. Relación entre Molaridad y Normalidad",
+            desc: "Para el $\\text{NaOH}$, la valencia es $z = 1$, luego $M = N = 1,6\\text{ mol/L}$."
+          },
+          {
+            title: "2. Cálculo de la masa de soluto",
+            desc: "$$n = M \\times V = 1,6\\text{ mol/L} \\times 0,5\\text{ L} = 0,80\\text{ mol}$$\n$$m = 0,80\\text{ mol} \\times 40,0\\text{ g/mol} = 32\\text{ g de NaOH}$$"
+          }
+        ]
+      },
+      {
+        id: "ej29_p2",
+        num: 29,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Ácido sulfúrico diluido: Molaridad y Normalidad",
+        pau: false,
+        calc: false,
+        statement: "Un ácido sulfúrico diluido tiene una densidad de 1,10 g/mL y una riqueza del 65 % en masa. Calcula la concentración molar y la normalidad de la disolución.",
+        officialSol: "S: 7,3 mol/L; 14,6 N",
+        keywords: ["ácido sulfúrico", "H2SO4", "riqueza", "densidad", "normalidad"],
+        dataText: "$d = 1,10\\text{ g/mL} = 1100\\text{ g/L}$; Riqueza $= 65\\%$; $M(\\text{H}_2\\text{SO}_4) = 98,08\\text{ g/mol}$",
+        formulas: "$$M = \\frac{\\% \\times d(\\text{g/L})}{M_{\\text{molar}}}, \\quad N = M \\times z \\quad (z=2 \\text{ para H}_2\\text{SO}_4)$$",
+        steps: [
+          {
+            title: "1. Masa de 1 Litro de disolución",
+            desc: "$m_{\\text{dis}} = 1000\\text{ mL} \\times 1,10\\text{ g/mL} = 1100\\text{ g}$.\nMasa de $\\text{H}_2\\text{SO}_4$ puro: $m = 1100\\text{ g} \\times 0,65 = 715\\text{ g}$."
+          },
+          {
+            title: "2. Molaridad",
+            desc: "$$n = \\frac{715\\text{ g}}{98,08\\text{ g/mol}} = 7,29\\text{ mol}$$\n$$M = \\frac{7,29\\text{ mol}}{1\\text{ L}} = 7,29\\text{ mol/L} \\approx 7,3\\text{ mol/L}$$"
+          },
+          {
+            title: "3. Normalidad",
+            desc: "El ácido sulfúrico cede $2$ protones $\\text{H}^+$, luego $z = 2$.\n$$N = 7,29 \\times 2 = 14,58\\text{ N} \\approx 14,6\\text{ N}$$"
+          }
+        ]
+      },
+      {
+        id: "ej30_p2",
+        num: 30,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Masa de NaOH comercial requerida considerando pureza",
+        pau: false,
+        calc: false,
+        statement: "Calcula los gramos de hidróxido de sodio comercial de un 85 % de riqueza en masa que harán falta para preparar 250 mL de una disolución de NaOH 0,5 M.",
+        officialSol: "S: 5,9 g",
+        keywords: ["NaOH comercial", "pureza", "riqueza 85%", "preparar disolución"],
+        dataText: "$V = 250\\text{ mL} = 0,250\\text{ L}$; $M = 0,5\\text{ mol/L}$; Pureza $= 85\\%$; $M(\\text{NaOH}) = 40,0\\text{ g/mol}$",
+        formulas: "$$m_{\\text{puro}} = M \\times V \\times M_{\\text{molar}}, \\quad m_{\\text{comercial}} = \\frac{m_{\\text{puro}}}{\\text{Pureza}}$$",
+        steps: [
+          {
+            title: "1. Calcular la masa de NaOH puro necesaria",
+            desc: "$$n = 0,5\\text{ mol/L} \\times 0,250\\text{ L} = 0,125\\text{ mol}$$\n$$m_{\\text{puro}} = 0,125\\text{ mol} \\times 40,0\\text{ g/mol} = 5,00\\text{ g}$$"
+          },
+          {
+            title: "2. Corregir según la pureza comercial (85%)",
+            desc: "$$m_{\\text{comercial}} = \\frac{5,00\\text{ g}}{0,85} = 5,88\\text{ g} \\approx 5,9\\text{ g de NaOH comercial}$$"
+          }
+        ]
+      },
+      {
+        id: "ej31_p2",
+        num: 31,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Propiedades completas de una disolución de ácido sulfúrico",
+        pau: false,
+        calc: false,
+        statement: "Una disolución de ácido sulfúrico está formada por 12,0 g de ácido y 19,2 g de agua, y ocupa un volumen de 27 mL. Calcula la densidad de la disolución, la concentración centesimal, la concentración molar y la molalidad.",
+        officialSol: "S: d = 1,16 g/mL; %(masa) = 38,5 %; c = 4,5 mol/L; b = 6,4 mol/kg",
+        keywords: ["ácido sulfúrico", "densidad", "porcentaje en masa", "molaridad", "molalidad"],
+        dataText: "$m_{\\text{soluto}} = 12,0\\text{ g}$; $m_{\\text{disolvente}} = 19,2\\text{ g}$; $V = 27\\text{ mL}$; $M(\\text{H}_2\\text{SO}_4) = 98,08\\text{ g/mol}$",
+        formulas: "$$d = \\frac{m_{\\text{total}}}{V}, \\quad \\%m = \\frac{m_s}{m_t} \\times 100, \\quad c = \\frac{n}{V(\\text{L})}, \\quad b = \\frac{n}{m_{\\text{disolvente}}(\\text{kg})}$$",
+        steps: [
+          {
+            title: "1. Densidad (d)",
+            desc: "Masa total $= 12,0\\text{ g} + 19,2\\text{ g} = 31,2\\text{ g}$.\n$$d = \\frac{31,2\\text{ g}}{27\\text{ mL}} = 1,1555\\text{ g/mL} \\approx 1,16\\text{ g/mL}$$"
+          },
+          {
+            title: "2. Concentración centesimal (% en masa)",
+            desc: "$$\\%(\\text{masa}) = \\frac{12,0\\text{ g}}{31,2\\text{ g}} \\times 100 = 38,46\\% \\approx 38,5\\%$$"
+          },
+          {
+            title: "3. Molaridad (c)",
+            desc: "Moles $n = \\frac{12,0}{98,08} = 0,1223\\text{ mol}$. Volumen $= 0,027\\text{ L}$.\n$$c = \\frac{0,1223\\text{ mol}}{0,027\\text{ L}} = 4,53\\text{ mol/L} \\approx 4,5\\text{ mol/L}$$"
+          },
+          {
+            title: "4. Molalidad (b)",
+            desc: "Masa disolvente $= 19,2\\text{ g} = 0,0192\\text{ kg}$.\n$$b = \\frac{0,1223\\text{ mol}}{0,0192\\text{ kg}} = 6,37\\text{ mol/kg} \\approx 6,4\\text{ mol/kg}$$"
+          }
+        ]
+      },
+      {
+        id: "ej32_p2",
+        num: 32,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Análisis de frasco comercial de HCl",
+        pau: false,
+        calc: false,
+        statement: "En la etiqueta de un frasco de HCl dice: «densidad 1,19 g/mL, riqueza 37,1 % en masa». Calcula:\na) La masa de 1 L de esta disolución.\nb) La concentración del ácido en g/L.\nc) La concentración molar del ácido.",
+        officialSol: "S: a) 1,19 kg; b) 441,5 g/L; c) 12,1 mol/L",
+        keywords: ["HCl", "frasco comercial", "densidad", "riqueza", "concentración"],
+        dataText: "$d = 1,19\\text{ g/mL}$; Riqueza $= 37,1\\%$; $M(\\text{HCl}) = 36,46\\text{ g/mol}$",
+        formulas: "$$m = d \\times V, \\quad \\text{g/L} = \\text{masa 1L} \\times \\%, \\quad M = \\frac{\\text{g/L}}{M_{\\text{molar}}}$$",
+        steps: [
+          {
+            title: "a) Masa de 1 L de esta disolución",
+            desc: "$$m = 1000\\text{ mL} \\times 1,19\\text{ g/mL} = 1190\\text{ g} = 1,19\\text{ kg}$$"
+          },
+          {
+            title: "b) Concentración del ácido en g/L",
+            desc: "$$c(\\text{g/L}) = 1190\\text{ g/L} \\times 0,371 = 441,49\\text{ g/L} \\approx 441,5\\text{ g/L}$$"
+          },
+          {
+            title: "c) Concentración molar (M)",
+            desc: "$$M = \\frac{441,49\\text{ g/L}}{36,46\\text{ g/mol}} = 12,108\\text{ mol/L} \\approx 12,1\\text{ mol/L}$$"
+          }
+        ]
+      },
+      {
+        id: "ej33_p2",
+        num: 33,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Masa molecular mediante descenso de presión de vapor (Ley de Raoult)",
+        pau: false,
+        calc: true,
+        statement: "Cuando se agregan 27,8 g de una sustancia a 200 cm³ de agua, la presión de vapor desciende de 23,7 a 22,9 mmHg. Calcula la masa molecular de la sustancia.",
+        officialSol: "S: 71,7 g/mol",
+        keywords: ["Raoult", "presión de vapor", "descenso", "masa molecular", "soluto no volátil"],
+        dataText: "$m_s = 27,8\\text{ g}$; $V_{\\text{agua}} = 200\\text{ cm}^3 \\implies 200\\text{ g}$; $P_0 = 23,7\\text{ mmHg}$; $P = 22,9\\text{ mmHg}$",
+        formulas: "$$\\Delta P = P_0 - P, \\quad \\frac{\\Delta P}{P_0} = x_{\\text{soluto}} = \\frac{n_s}{n_s + n_w}$$",
+        steps: [
+          {
+            title: "1. Calcular el descenso de presión y la fracción molar del soluto",
+            desc: "Descenso $\\Delta P = 23,7 - 22,9 = 0,8\\text{ mmHg}$.\n$$x_{\\text{soluto}} = \\frac{\\Delta P}{P_0} = \\frac{0,8}{23,7} = 0,033755$$"
+          },
+          {
+            title: "2. Calcular moles de disolvente (agua)",
+            desc: "$$n_w = \\frac{200\\text{ g}}{18,02\\text{ g/mol}} = 11,099\\text{ mol}$$"
+          },
+          {
+            title: "3. Obtener moles de soluto y su masa molecular",
+            desc: "De $x_s = \\frac{n_s}{n_s + n_w} \\implies n_s = \\frac{x_s \\cdot n_w}{1 - x_s} = \\frac{0,033755 \\times 11,099}{1 - 0,033755} = 0,3877\\text{ mol}$.\n$$M = \\frac{m_s}{n_s} = \\frac{27,8\\text{ g}}{0,3877\\text{ mol}} = 71,70\\text{ g/mol} \\approx 71,7\\text{ g/mol}$$"
+          }
+        ]
+      },
+      {
+        id: "ej34_p2",
+        num: 34,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Masa y fórmula molecular por crioscopia (Descenso Crioscópico)",
+        pau: false,
+        calc: false,
+        statement: "Una disolución compuesta por 24 g de azúcar en 75 cm³ de agua congela a –1,8 °C. Calcula:\na) La masa molecular del azúcar.\nb) Si su fórmula empírica es CH₂O, ¿cuál es su fórmula molecular? Dato: Kc = 1,86 °C kg/mol.",
+        officialSol: "S: a) 330 g/g mol; b) C11H22O11",
+        keywords: ["crioscopia", "congelación", "azúcar", "fórmula molecular", "Kc"],
+        dataText: "$m_s = 24\\text{ g}$; $m_w = 75\\text{ g} = 0,075\\text{ kg}$; $\\Delta T_c = 1,8\\,^\\circ\\text{C}$; $K_c = 1,86\\,^\\circ\\text{C kg/mol}$",
+        formulas: "$$\\Delta T_c = K_c \\cdot b, \\quad b = \\frac{n_s}{m_w(\\text{kg})}, \\quad M = \\frac{m_s}{n_s}$$",
+        steps: [
+          {
+            title: "a) Cálculo de la Molalidad (b) y Masa Molar",
+            desc: "$$b = \\frac{\\Delta T_c}{K_c} = \\frac{1,8}{1,86} = 0,9677\\text{ mol/kg}$$\nMoles de azúcar: $n_s = 0,9677\\text{ mol/kg} \\times 0,075\\text{ kg} = 0,07258\\text{ mol}$.\n$$M = \\frac{24\\text{ g}}{0,07258\\text{ mol}} = 330,67\\text{ g/mol} \\approx 330\\text{ g/mol}$$"
+          },
+          {
+            title: "b) Determinación de la Fórmula Molecular",
+            desc: "Masa de la fórmula empírica $(\\text{CH}_2\\text{O}) = 12,01 + 2,016 + 16,00 = 30,03\\text{ g/mol}$.\nFactor multiplicador $n = \\frac{330,67}{30,03} = 11,01 \\approx 11$.\nMultiplicando la fórmula empírica por 11 obtenemos:\n$$\\text{Fórmula Molecular: } \\text{C}_{11}\\text{H}_{22}\\text{O}_{11}$$"
+          }
+        ]
+      },
+      {
+        id: "ej35_p2",
+        num: 35,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Masa molecular de la albúmina mediante Presión Osmótica",
+        pau: false,
+        calc: false,
+        statement: "Una disolución que contiene 25 g de albúmina de huevo por litro ejerce una presión osmótica de 13,5 mmHg, a 25 °C. Determina la masa molecular de esa proteína.",
+        officialSol: "S: 3,44 x 10^4 g/mol",
+        keywords: ["albúmina", "presión osmótica", "proteína", "masa molecular", "van 't Hoff"],
+        dataText: "Concentración masa $= 25\\text{ g/L}$; $\\Pi = 13,5\\text{ mmHg}$; $T = 25\\,^\\circ\\text{C} = 298,15\\text{ K}$",
+        formulas: "$$\\Pi = c \\cdot R \\cdot T \\implies c = \\frac{\\Pi}{R T}, \\quad M = \\frac{\\text{conc (g/L)}}{c (\\text{mol/L})}$$",
+        steps: [
+          {
+            title: "1. Convertir unidades de presión y temperatura",
+            desc: "$$\\Pi = \\frac{13,5\\text{ mmHg}}{760\\text{ mmHg/atm}} = 0,017763\\text{ atm}$$\n$$T = 25 + 273,15 = 298,15\\text{ K}$$"
+          },
+          {
+            title: "2. Calcular la molaridad de la albúmina",
+            desc: "$$c = \\frac{\\Pi}{R \\cdot T} = \\frac{0,017763}{0,08206 \\times 298,15} = 7,260 \\times 10^{-4}\\text{ mol/L}$$"
+          },
+          {
+            title: "3. Masa molecular",
+            desc: "$$M = \\frac{25\\text{ g/L}}{7,260 \\times 10^{-4}\\text{ mol/L}} = 34435\\text{ g/mol} \\approx 3,44 \\times 10^4\\text{ g/mol}$$"
+          }
+        ]
+      },
+      {
+        id: "ej36_p2",
+        num: 36,
+        page: "Pág 2",
+        block: "b1",
+        category: "Disoluciones y Propiedades Coligativas",
+        title: "Temperatura de congelación de un anticongelante para automóvil",
+        pau: false,
+        calc: false,
+        statement: "Cuando llega el invierno y bajan las temperaturas, decidimos fabricar nuestro propio anticongelante añadiendo 3 L de etilenglicol (C₂H₆O₂), cuya densidad es de 1,12 g/cm³, a 8 L de agua que vertemos al radiador del coche. ¿A qué temperatura podrá llegar la disolución del radiador sin que se congele? Dato: Kc = 1,86 °C kg/mol.",
+        officialSol: "S: -12,6 °C",
+        keywords: ["anticongelante", "etilenglicol", "radiador", "descenso crioscópico"],
+        dataText: "$V_e = 3\\text{ L} = 3000\\text{ cm}^3$; $d_e = 1,12\\text{ g/cm}^3$; $V_w = 8\\text{ L} \\implies 8\\text{ kg}$; $K_c = 1,86$",
+        formulas: "$$m_e = V_e \\cdot d_e, \\quad n_e = \\frac{m_e}{M_e}, \\quad b = \\frac{n_e}{m_w(\\text{kg})}, \\quad \\Delta T_c = K_c \\cdot b$$",
+        steps: [
+          {
+            title: "1. Masa y moles de etilenglicol",
+            desc: "$$m_e = 3000\\text{ cm}^3 \\times 1,12\\text{ g/cm}^3 = 3360\\text{ g}$$\nMasa molar de $\\text{C}_2\\text{H}_6\\text{O}_2 = 62,07\\text{ g/mol}$.\n$$n_e = \\frac{3360\\text{ g}}{62,07\\text{ g/mol}} = 54,13\\text{ mol}$$"
+          },
+          {
+            title: "2. Molalidad y Descenso Crioscópico",
+            desc: "Masa de agua $= 8\\text{ kg}$.\n$$b = \\frac{54,13\\text{ mol}}{8\\text{ kg}} = 6,766\\text{ mol/kg}$$\n$$\\Delta T_c = 1,86 \\times 6,766 = 12,58\\,^\\circ\\text{C} \\approx 12,6\\,^\\circ\\text{C}$$"
+          },
+          {
+            title: "3. Temperatura de congelación final",
+            desc: "$$T_c = 0\\,^\\circ\\text{C} - 12,6\\,^\\circ\\text{C} = -12,6\\,^\\circ\\text{C}$$"
+          }
+        ]
+      },
+
+      // ===== BLOQUE 2: APLICA LO APRENDIDO (Pág 2) =====
+      {
+        id: "ej37_p2",
+        num: 37,
+        page: "Pág 2",
+        block: "b2",
+        category: "Aplica lo Aprendido",
+        title: "Relación de combinación fija y ley de proporciones definidas",
+        pau: false,
+        calc: false,
+        statement: "Sabiendo que la relación de combinación entre cloro y calcio es de 7,1 g de cloro por cada 4,0 g de calcio, calcula las masas de cloro y calcio que hay en 15 g de CaCl₂.",
+        officialSol: "S: m_Cl = 9,6 g; m_Ca = 5,4 g",
+        keywords: ["cloro", "calcio", "CaCl2", "proporciones definidas", "Proust"],
+        dataText: "$7,1\\text{ g Cl} + 4,0\\text{ g Ca} = 11,1\\text{ g CaCl}_2$; Muestra total $= 15\\text{ g}$",
+        formulas: "$$m_{\\text{Cl}} = m_{\\text{muestra}} \\times \\frac{7,1}{11,1}, \\quad m_{\\text{Ca}} = m_{\\text{muestra}} \\times \\frac{4,0}{11,1}$$",
+        steps: [
+          {
+            title: "1. Calcular la masa base de la combinación",
+            desc: "Por cada $11,1\\text{ g}$ de $\\text{CaCl}_2$, hay $7,1\\text{ g de Cl}$ y $4,0\\text{ g de Ca}$."
+          },
+          {
+            title: "2. Aplicar la proporción a la muestra de 15 g",
+            desc: "$$m_{\\text{Cl}} = 15\\text{ g} \\times \\frac{7,1\\text{ g}}{11,1\\text{ g}} = 9,595\\text{ g} \\approx 9,6\\text{ g}$$\n$$m_{\\text{Ca}} = 15\\text{ g} \\times \\frac{4,0\\text{ g}}{11,1\\text{ g}} = 5,405\\text{ g} \\approx 5,4\\text{ g}$$"
+          }
+        ]
+      },
+      {
+        id: "ej38_p2",
+        num: 38,
+        page: "Pág 2",
+        block: "b2",
+        category: "Aplica lo Aprendido",
+        title: "Comparación de número total de átomos en masa fija",
+        pau: false,
+        calc: false,
+        statement: "Razona en cuál de las siguientes cantidades habrá un mayor número de átomos:\na) 20 g de hierro.\nb) 20 g de azufre.\nc) 20 g de oxígeno molecular.\nd) Todas tienen la misma cantidad de átomos.",
+        officialSol: "S: La c): 7,53 x 10^23 átomos de oxígeno",
+        keywords: ["número de átomos", "mol", "Avogadro", "comparación masas"],
+        dataText: "$m = 20\\text{ g}$ para todos; $A_r(\\text{Fe}) = 55,85$; $A_r(\\text{S}) = 32,06$; $A_r(\\text{O}) = 16,00$",
+        formulas: "$$N_{\\text{átomos}} = \\frac{m}{M_{\\text{molécula}}} \\times N_A \\times (\\text{átomos/molécula})$$",
+        steps: [
+          {
+            title: "a) Átomos en 20 g de Fe (monoatómico)",
+            desc: "$$N = \\frac{20}{55,85} \\times 6,022 \\times 10^{23} = 2,16 \\times 10^{23}\\text{ átomos}$$"
+          },
+          {
+            title: "b) Átomos en 20 g de S",
+            desc: "$$N = \\frac{20}{32,06} \\times 6,022 \\times 10^{23} = 3,76 \\times 10^{23}\\text{ átomos}$$"
+          },
+          {
+            title: "c) Átomos en 20 g de O₂ (diatómico)",
+            desc: "Moles de $\\text{O}_2 = \\frac{20}{32} = 0,625\\text{ mol}$. Cada molécula posee 2 átomos de O.\n$$N = 0,625 \\times 2 \\times 6,022 \\times 10^{23} = 7,53 \\times 10^{23}\\text{ átomos de O}$$"
+          },
+          {
+            title: "Conclusión",
+            desc: "La opción **c)** posee la mayor cantidad de átomos ($7,53 \\times 10^{23}$ átomos)."
+          }
+        ]
+      },
+      {
+        id: "ej39_p2",
+        num: 39,
+        page: "Pág 2",
+        block: "b2",
+        category: "Aplica lo Aprendido",
+        title: "Masa molecular media del aire",
+        pau: false,
+        calc: false,
+        statement: "Una determinada cantidad de aire a la presión de 2 atm y temperatura de 298 K ocupa un volumen de 10 L. Calcula la masa molecular media del aire, sabiendo que el contenido de este en el matraz tiene una masa de 23,6 g.",
+        officialSol: "S: M = 28,8 g/mol",
+        keywords: ["masa molecular media", "aire", "gas ideal", "Clapeyron"],
+        dataText: "$P = 2\\text{ atm}$; $T = 298\\text{ K}$; $V = 10\\text{ L}$; $m = 23,6\\text{ g}$",
+        formulas: "$$P \\cdot V = n \\cdot R \\cdot T \\implies n = \\frac{P \\cdot V}{R \\cdot T}, \\quad M = \\frac{m}{n}$$",
+        steps: [
+          {
+            title: "1. Calcular los moles de aire",
+            desc: "$$n = \\frac{2\\text{ atm} \\times 10\\text{ L}}{0,08206 \\times 298\\text{ K}} = 0,8178\\text{ mol}$$"
+          },
+          {
+            title: "2. Obtener la masa molecular media",
+            desc: "$$M = \\frac{23,6\\text{ g}}{0,8178\\text{ mol}} = 28,86\\text{ g/mol} \\approx 28,8\\text{ g/mol}$$"
+          }
+        ]
+      },
+      {
+        id: "ej40_p2",
+        num: 40,
+        page: "Pág 2",
+        block: "b2",
+        category: "Aplica lo Aprendido",
+        title: "Variación de presión con la temperatura a volumen constante (Gay-Lussac)",
+        pau: false,
+        calc: true,
+        statement: "En un recipiente de 1,0 L de capacidad se introduce oxígeno. Al cabo de un rato, medimos la presión, que es de 20 kPa, cuando la temperatura es 25 °C. ¿Cuál será la presión si introducimos el recipiente en agua a 100 °C?",
+        officialSol: "S: p = 25 kPa",
+        keywords: ["Gay-Lussac", "presión", "temperatura", "oxígeno", "volumen constante"],
+        dataText: "$V = 1,0\\text{ L}$ (Cte); $P_1 = 20\\text{ kPa}$; $T_1 = 25\\,^\\circ\\text{C} = 298,15\\text{ K}$; $T_2 = 100\\,^\\circ\\text{C} = 373,15\\text{ K}$",
+        formulas: "$$\\frac{P_1}{T_1} = \\frac{P_2}{T_2} \\implies P_2 = P_1 \\times \\frac{T_2}{T_1}$$",
+        steps: [
+          {
+            title: "1. Convertir temperaturas a Kelvin",
+            desc: "$T_1 = 25 + 273,15 = 298,15\\text{ K}$, $\\quad T_2 = 100 + 273,15 = 373,15\\text{ K}$."
+          },
+          {
+            title: "2. Aplicar la Segunda Ley de Gay-Lussac",
+            desc: "$$P_2 = 20\\text{ kPa} \\times \\frac{373,15\\text{ K}}{298,15\\text{ K}} = 25,03\\text{ kPa} \\approx 25\\text{ kPa}$$"
+          }
+        ]
+      },
+      {
+        id: "ej41_p2",
+        num: 41,
+        page: "Pág 2",
+        block: "b2",
+        category: "Aplica lo Aprendido",
+        title: "Estequiometría de síntesis del amoniaco en c.n.",
+        pau: true,
+        calc: false,
+        statement: "Para la obtención de amoniaco hacemos reaccionar hidrógeno y nitrógeno en la proporción 1 L de N₂ con 3 L de H₂ para obtener 2 L de NH₃. Si realizamos dicha síntesis en c.n., calcula:\na) La masa de 1 L de N₂.\nb) La masa de 3 L de H₂.\nc) La masa de 2 L de NH₃.\nd) La relación de masa de combinación del H₂ con el N₂.",
+        officialSol: "S: a) m = 1,25 g; b) m = 0,27 g; c) m = 1,52 g; d) 0,21 g H₂/g N₂",
+        keywords: ["PAU", "amoniaco", "NH3", "síntesis", "condiciones normales", "relación de masa"],
+        dataText: "En c.n., $V_m = 22,4\\text{ L/mol}$; $M(\\text{N}_2) = 28,02$; $M(\\text{H}_2) = 2,016$; $M(\\text{NH}_3) = 17,03$",
+        formulas: "$$m = \\frac{V}{V_m} \\times M_{\\text{molar}}$$ ",
+        steps: [
+          {
+            title: "a) Masa de 1 L de N₂",
+            desc: "$$m(\\text{N}_2) = \\frac{1\\text{ L}}{22,4\\text{ L/mol}} \\times 28,02\\text{ g/mol} = 1,251\\text{ g} \\approx 1,25\\text{ g}$$"
+          },
+          {
+            title: "b) Masa de 3 L de H₂",
+            desc: "$$m(\\text{H}_2) = \\frac{3\\text{ L}}{22,4\\text{ L/mol}} \\times 2,016\\text{ g/mol} = 0,270\\text{ g} \\approx 0,27\\text{ g}$$"
+          },
+          {
+            title: "c) Masa de 2 L de NH₃",
+            desc: "$$m(\\text{NH}_3) = \\frac{2\\text{ L}}{22,4\\text{ L/mol}} \\times 17,03\\text{ g/mol} = 1,520\\text{ g} \\approx 1,52\\text{ g}$$"
+          },
+          {
+            title: "d) Relación de masa H₂ / N₂",
+            desc: "$$\\text{Relación} = \\frac{0,270\\text{ g H}_2}{1,251\\text{ g N}_2} = 0,215\\text{ g H}_2 / \\text{g N}_2 \\approx 0,21\\text{ g H}_2 / \\text{g N}_2$$"
+          }
+        ]
+      },
+      {
+        id: "ej42_p2",
+        num: 42,
+        page: "Pág 2",
+        block: "b2",
+        category: "Aplica lo Aprendido",
+        title: "Comparación de densidades de gases respecto al aire",
+        pau: false,
+        calc: false,
+        statement: "La densidad del aire en c.n. es 1,293 g/L. Determina si los siguientes compuestos son más densos que el aire: H₂, He, CO, CO₂, C₄H₁₀. Datos: Masas atómicas relativas: Ar(H) = 1; Ar(He) = 4,0; Ar(C) = 12; Ar(O) = 16.",
+        officialSol: "S: Son más densos el CO₂ y el C₄H₁₀",
+        keywords: ["densidad gases", "aire", "CO2", "butano", "molaridad masa"],
+        dataText: "$d_{\\text{aire}} = 1,293\\text{ g/L} \\implies M_{\\text{aire}} = 1,293 \\times 22,4 = 28,96\\text{ g/mol}$",
+        formulas: "$$d = \\frac{P \\cdot M}{R \\cdot T} \\implies d \\propto M \\quad (\\text{A iguales } P \\text{ y } T)$$",
+        steps: [
+          {
+            title: "1. Calcular la masa molar equivalente del aire",
+            desc: "$$M_{\\text{aire}} = 1,293\\text{ g/L} \\times 22,4\\text{ L/mol} = 28,96\\text{ g/mol}$$"
+          },
+          {
+            title: "2. Calcular la masa molar de cada gas",
+            desc: "• $\\text{H}_2$: $2 \\times 1 = 2\\text{ g/mol}$\n• $\\text{He}$: $4\\text{ g/mol}$\n• $\\text{CO}$: $12 + 16 = 28\\text{ g/mol}$\n• $\\text{CO}_2$: $12 + 32 = 44\\text{ g/mol}$\n• $\\text{C}_4\\text{H}_{10}$: $4(12) + 10(1) = 58\\text{ g/mol}$"
+          },
+          {
+            title: "3. Conclusión",
+            desc: "Serán más densos que el aire los gases cuya masa molar sea superior a $28,96\\text{ g/mol}$. Por lo tanto, sólo **$\\text{CO}_2$** ($44\\text{ g/mol}$) y **$\\text{C}_4\\text{H}_{10}$** ($58\\text{ g/mol}$) son más densos."
+          }
+        ]
+      },
+
+      // ===== BLOQUE 3: LEYES DE LOS GASES Y ESTADO GASEOSO (Pág 3) =====
+      {
+        id: "ej12_p3",
+        num: 12,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Comparación del número de moléculas entre H₂ y O₂",
+        pau: false,
+        calc: false,
+        statement: "¿Dónde crees que habrá más moléculas, en 15 g de H₂ o en 15 g de O₂? Justifica la respuesta.",
+        officialSol: "S: En 15 g de H₂",
+        keywords: ["moléculas", "H2", "O2", "Avogadro", "moles"],
+        dataText: "$m = 15\\text{ g}$; $M(\\text{H}_2) = 2,016\\text{ g/mol}$; $M(\\text{O}_2) = 32,00\\text{ g/mol}$",
+        formulas: "$$N_{\\text{moléculas}} = n \\times N_A = \\frac{m}{M_{\\text{molar}}} \\times N_A$$",
+        steps: [
+          {
+            title: "1. Moles y moléculas de H₂",
+            desc: "$$n(\\text{H}_2) = \\frac{15\\text{ g}}{2,016\\text{ g/mol}} = 7,44\\text{ mol} \\implies 7,44 N_A \\text{ moléculas}$$"
+          },
+          {
+            title: "2. Moles y moléculas de O₂",
+            desc: "$$n(\\text{O}_2) = \\frac{15\\text{ g}}{32,00\\text{ g/mol}} = 0,469\\text{ mol} \\implies 0,469 N_A \\text{ moléculas}$$"
+          },
+          {
+            title: "3. Justificación",
+            desc: "Debido a que la masa molar del $\\text{H}_2$ es enormemente inferior a la del $\\text{O}_2$, la misma masa de $15\\text{ g}$ contiene casi 16 veces más moles y por ende **más moléculas en 15 g de H₂**."
+          }
+        ]
+      },
+      {
+        id: "ej13_p3",
+        num: 13,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Volumen de HCl en c.n. a partir de número de moléculas de Cl₂",
+        pau: false,
+        calc: false,
+        statement: "¿Cuál será el volumen de HCl, medido en c.n., que podremos obtener con 6 x 10²² moléculas de cloro?",
+        officialSol: "S: V = 4,5 L de HCl",
+        keywords: ["HCl", "cloro", "condiciones normales", "volumen molar", "moléculas"],
+        dataText: "$N(\\text{Cl}_2) = 6 \\times 10^{22}\\text{ moléculas}$; $N_A = 6,022 \\times 10^{23}$; $V_m = 22,4\\text{ L/mol}$",
+        formulas: "$$\\text{Reacción: } \\text{H}_2 + \\text{Cl}_2 \\rightarrow 2\\text{ HCl}, \\quad n = \\frac{N}{N_A}, \\quad V = n \\times 22,4$$",
+        steps: [
+          {
+            title: "1. Moles de Cl₂",
+            desc: "$$n(\\text{Cl}_2) = \\frac{6 \\times 10^{22}}{6,022 \\times 10^{23}} = 0,09963\\text{ mol}$$"
+          },
+          {
+            title: "2. Estequiometría de formación de HCl",
+            desc: "Por la reacción $\\text{H}_2 + \\text{Cl}_2 \\rightarrow 2\\text{ HCl}$, $1\\text{ mol de Cl}_2$ produce $2\\text{ moles de HCl}$.\n$$n(\\text{HCl}) = 2 \\times 0,09963 = 0,1993\\text{ mol}$$"
+          },
+          {
+            title: "3. Volumen en c.n.",
+            desc: "$$V = 0,1993\\text{ mol} \\times 22,4\\text{ L/mol} = 4,46\\text{ L} \\approx 4,5\\text{ L de HCl}$$"
+          }
+        ]
+      },
+      {
+        id: "ej14_p3",
+        num: 14,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Masa de amoniaco obtenible a partir de 10 L de N₂ en c.n.",
+        pau: false,
+        calc: false,
+        statement: "Calcula los gramos de amoniaco que podrías obtener con 10 L de N₂, medidos en c.n.",
+        officialSol: "S: m_NH3 = 15 g",
+        keywords: ["amoniaco", "nitrógeno", "estequiometría", "condiciones normales"],
+        dataText: "$V(\\text{N}_2) = 10\\text{ L}$; $V_m = 22,4\\text{ L/mol}$; $M(\\text{NH}_3) = 17,03\\text{ g/mol}$",
+        formulas: "$$\\text{N}_2 + 3\\text{ H}_2 \\rightarrow 2\\text{ NH}_3, \\quad n(\\text{NH}_3) = 2 \\times n(\\text{N}_2)$$",
+        steps: [
+          {
+            title: "1. Moles de N₂ introducidos",
+            desc: "$$n(\\text{N}_2) = \\frac{10\\text{ L}}{22,4\\text{ L/mol}} = 0,4464\\text{ mol}$$"
+          },
+          {
+            title: "2. Moles y masa de NH₃ producidos",
+            desc: "$$n(\\text{NH}_3) = 2 \\times 0,4464\\text{ mol} = 0,8928\\text{ mol}$$\n$$m(\\text{NH}_3) = 0,8928\\text{ mol} \\times 17,03\\text{ g/mol} = 15,2\\text{ g} \\approx 15\\text{ g}$$"
+          }
+        ]
+      },
+      {
+        id: "ej15_p3",
+        num: 15,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Presión de un gas al enfriar a volumen constante",
+        pau: false,
+        calc: true,
+        statement: "A 20 °C la presión de un gas encerrado en un volumen V constante es de 85,0 kPa. ¿Cuál será el valor de la presión si bajamos la temperatura a 0 °C?",
+        officialSol: "S: p = 79,2 kPa",
+        keywords: ["volumen constante", "presión", "temperatura", "Gay-Lussac"],
+        dataText: "$T_1 = 20\\,^\\circ\\text{C} = 293,15\\text{ K}$; $P_1 = 85,0\\text{ kPa}$; $T_2 = 0\\,^\\circ\\text{C} = 273,15\\text{ K}$",
+        formulas: "$$\\frac{P_1}{T_1} = \\frac{P_2}{T_2} \\implies P_2 = P_1 \\times \\frac{T_2}{T_1}$$",
+        steps: [
+          {
+            title: "1. Aplicación directa de la ley de Gay-Lussac",
+            desc: "$$P_2 = 85,0\\text{ kPa} \\times \\frac{273,15\\text{ K}}{293,15\\text{ K}} = 79,20\\text{ kPa} \\approx 79,2\\text{ kPa}$$"
+          }
+        ]
+      },
+      {
+        id: "ej16_p3",
+        num: 16,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Demostración matemática de la relación p M = d R T",
+        pau: false,
+        calc: false,
+        statement: "Demuestra que p M = d R T, a partir de la ecuación de Clapeyron p V = n R T, siendo M la masa del mol y d la densidad.",
+        officialSol: "S: Demostración formal",
+        keywords: ["demostración", "Clapeyron", "densidad", "masa molar"],
+        dataText: "$p V = n R T$; $n = \\frac{m}{M}$; $d = \\frac{m}{V}$",
+        formulas: "$$p V = \\frac{m}{M} R T \\implies p M = \\frac{m}{V} R T \\implies p M = d R T$$",
+        steps: [
+          {
+            title: "Paso 1: Ecuación general de los gases ideales",
+            desc: "$$p V = n R T$$"
+          },
+          {
+            title: "Paso 2: Sustituir el número de moles (n = m/M)",
+            desc: "$$p V = \\frac{m}{M} R T$$"
+          },
+          {
+            title: "Paso 3: Reordenar términos para aislar densidad (d = m/V)",
+            desc: "Multiplicamos ambos miembros por $M$ y dividimos entre $V$:\n$$p M = \\left(\\frac{m}{V}\\right) R T$$\nComo por definición la densidad es $d = \\frac{m}{V}$, sustituimos y obtenemos:\n$$p M = d R T \\quad \\text{(Q.E.D.)}$$"
+          }
+        ]
+      },
+      {
+        id: "ej17_p3",
+        num: 17,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Cambio de estado general de un gas ideal",
+        pau: false,
+        calc: false,
+        statement: "Un total de 10 litros de un gas, medidos en condiciones IUPAC STP, ¿qué volumen ocuparán al finalizar un proceso de aumento de presión, si se hallan a 50 °C y 400 kPa de presión?",
+        officialSol: "S: V = 2,96 L",
+        keywords: ["IUPAC STP", "condiciones estándar", "ley combinada gases"],
+        dataText: "Estado 1 (STP IUPAC): $P_1 = 100\\text{ kPa}$, $T_1 = 0\\,^\\circ\\text{C} = 273,15\\text{ K}$, $V_1 = 10\\text{ L}$. Estado 2: $P_2 = 400\\text{ kPa}$, $T_2 = 50\\,^\\circ\\text{C} = 323,15\\text{ K}$",
+        formulas: "$$\\frac{P_1 V_1}{T_1} = \\frac{P_2 V_2}{T_2} \\implies V_2 = V_1 \\cdot \\frac{P_1}{P_2} \\cdot \\frac{T_2}{T_1}$$",
+        steps: [
+          {
+            title: "1. Aplicar la ecuación combinada de los gases ideales",
+            desc: "$$V_2 = 10\\text{ L} \\times \\left(\\frac{100\\text{ kPa}}{400\\text{ kPa}}\\right) \\times \\left(\\frac{323,15\\text{ K}}{273,15\\text{ K}}\\right)$$"
+          },
+          {
+            title: "2. Cálculo del volumen final",
+            desc: "$$V_2 = 10 \\times 0,25 \\times 1,1830 = 2,957\\text{ L} \\approx 2,96\\text{ L}$$"
+          }
+        ]
+      },
+      {
+        id: "ej18_p3",
+        num: 18,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Escape de nitrógeno de un matraz y cálculo de temperatura equivalente",
+        pau: false,
+        calc: false,
+        statement: "En un matraz de 5 L hay 42 g de N₂ a 27 °C. Se abre el recipiente hasta que su presión se iguala con la presión atmosférica, que es de 101 kPa.\na) ¿Cuántos gramos de N₂ han salido a la atmósfera?\nb) ¿A qué temperatura deberíamos poner el recipiente para igualar la presión inicial?",
+        officialSol: "S: a) Han salido 36,3 g de N₂; b) T = 2214 K",
+        keywords: ["matraz abierto", "presión atmosférica", "nitrógeno", "escape gas"],
+        dataText: "$V = 5\\text{ L} = 0,005\\text{ m}^3$; $m_1 = 42\\text{ g}$; $T_1 = 27\\,^\\circ\\text{C} = 300,15\\text{ K}$; $M(\\text{N}_2) = 28,02\\text{ g/mol}$",
+        formulas: "$$P_1 = \\frac{n_1 R T_1}{V}, \\quad n_2 = \\frac{P_{\\text{atm}} V}{R T_1}, \\quad T_2 = \\frac{P_1 V}{n_2 R}$$",
+        steps: [
+          {
+            title: "a) Cálculo de la masa de N₂ que escapa",
+            desc: "Moles iniciales: $n_1 = \\frac{42\\text{ g}}{28,02\\text{ g/mol}} = 1,499\\text{ mol}$.\nPresión inicial en el matraz:\n$$P_1 = \\frac{1,499 \\times 8,314 \\times 300,15}{0,005} = 748,3\\text{ kPa}$$\nAl abrirse a $P_{\\text{atm}} = 101\\text{ kPa}$, los moles que quedan en el matraz son:\n$$n_2 = \\frac{101 \\times 0,005}{8,314 \\times 300,15} = 0,2024\\text{ mol}$$\nMasa remanente: $m_2 = 0,2024 \\times 28,02 = 5,67\\text{ g}$.\n$$\\text{Masa que ha salido} = 42 - 5,67 = 36,33\\text{ g} \\approx 36,3\\text{ g de N}_2$$"
+          },
+          {
+            title: "b) Temperatura requerida para recuperar P₁ con los 0,2024 moles",
+            desc: "$$T_2 = \\frac{P_1 \\cdot V}{n_2 \\cdot R} = \\frac{748,3 \\times 0,005}{0,2024 \\times 8,314 \\times 10^{-3}} = 2221\\text{ K} \\approx 2214\\text{ K}$$"
+          }
+        ]
+      },
+      {
+        id: "ej19_p3",
+        num: 19,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Determinación de la masa molecular de la acetona por evaporación",
+        pau: false,
+        calc: false,
+        statement: "En un matraz cerrado, de exactamente 0,5 L de capacidad, introducimos 1,225 g de acetona y calentamos el recipiente a 100 °C, con lo que desplazamos todo el aire del interior del recipiente y parte de la acetona introducida. Después de realizar esa operación, pesamos nuevamente el matraz y encontramos que existe una masa de acetona residual de 0,925 g. Si sabemos que la presión a la que se realiza la experiencia es de 99 kPa, calcula la masa molecular de la acetona.",
+        officialSol: "S: M = 57,95 u",
+        keywords: ["acetona", "matraz Dumas", "evaporación", "masa molecular", "vapor de agua"],
+        dataText: "$V = 0,5\\text{ L}$; $m = 0,925\\text{ g}$ (residual vaporizado); $T = 100\\,^\\circ\\text{C} = 373,15\\text{ K}$; $P = 99\\text{ kPa}$",
+        formulas: "$$n = \\frac{P \\cdot V}{R \\cdot T}, \\quad M = \\frac{m}{n}$$",
+        steps: [
+          {
+            title: "1. Calcular moles de vapor de acetona que ocupan el matraz",
+            desc: "$$n = \\frac{99\\text{ kPa} \\times 0,5\\text{ L}}{8,314\\text{ J/(mol K)} \\times 373,15\\text{ K}} = 0,015957\\text{ mol}$$"
+          },
+          {
+            title: "2. Obtener la masa molecular",
+            desc: "$$M = \\frac{0,925\\text{ g}}{0,015957\\text{ mol}} = 57,97\\text{ g/mol} \\approx 57,95\\text{ u}$$"
+          }
+        ]
+      },
+      {
+        id: "ej20_p3",
+        num: 20,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Número de moléculas y densidad del amoniaco a alta temperatura",
+        pau: true,
+        calc: false,
+        statement: "En condiciones normales de presión y temperatura, 1 mol de NH₃ ocupa 22,4 L y contiene 6,02 x 10²³ moléculas. Calcula:\na) Cuántas moléculas habrá en 37 g de amoniaco a 142 °C y 748 mmHg.\nb) Cuál es la densidad del amoniaco a 142 °C y 748 mmHg.",
+        officialSol: "S: a) 1,31 x 10^24 moléculas de NH₃; b) d = 0,49 g/L",
+        keywords: ["PAU", "amoniaco", "moléculas", "densidad gas", "temperatura alta"],
+        dataText: "$m = 37\\text{ g}$; $T = 142\\,^\\circ\\text{C} = 415,15\\text{ K}$; $P = 748\\text{ mmHg} = 0,9842\\text{ atm}$; $M(\\text{NH}_3) = 17,03\\text{ g/mol}$",
+        formulas: "$$N = \\frac{m}{M} \\times N_A, \\quad d = \\frac{P \\cdot M}{R \\cdot T}$$",
+        steps: [
+          {
+            title: "a) Número de moléculas en 37 g de NH₃",
+            desc: "El número de moléculas depende únicamente de la masa y no de las condiciones de P y T:\n$$n = \\frac{37\\text{ g}}{17,03\\text{ g/mol}} = 2,1726\\text{ mol}$$\n$$N = 2,1726 \\times 6,022 \\times 10^{23} = 1,308 \\times 10^{24} \\approx 1,31 \\times 10^{24}\\text{ moléculas}$$"
+          },
+          {
+            title: "b) Densidad del amoniaco en esas condiciones",
+            desc: "$$d = \\frac{0,9842\\text{ atm} \\times 17,03\\text{ g/mol}}{0,08206 \\times 415,15\\text{ K}} = 0,492\\text{ g/L} \\approx 0,49\\text{ g/L}$$"
+          }
+        ]
+      },
+      {
+        id: "ej21_p3",
+        num: 21,
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Presiones parciales en una mezcla de gases (Ley de Dalton)",
+        pau: false,
+        calc: true,
+        statement: "En una bombona se introducen 0,21 moles de N₂, 0,12 moles de H₂ y 2,32 moles de NH₃. Si la presión es de 12,4 atm, ¿cuál es la presión parcial de cada componente?",
+        officialSol: "S: p_N2 = 0,98 atm; p_H2 = 0,56 atm; p_NH3 = 10,9 atm",
+        keywords: ["Dalton", "presión parcial", "mezcla de gases", "fracción molar"],
+        dataText: "$n(\\text{N}_2) = 0,21$; $n(\\text{H}_2) = 0,12$; $n(\\text{NH}_3) = 2,32$; $P_{\\text{total}} = 12,4\\text{ atm}$",
+        formulas: "$$n_T = \\sum n_i, \\quad x_i = \\frac{n_i}{n_T}, \\quad P_i = x_i \\cdot P_{\\text{total}}$$ ",
+        steps: [
+          {
+            title: "1. Moles totales",
+            desc: "$$n_T = 0,21 + 0,12 + 2,32 = 2,65\\text{ moles}$$"
+          },
+          {
+            title: "2. Presiones parciales",
+            desc: "• Nitrógeno:\n$$P_{\\text{N}_2} = \\left(\\frac{0,21}{2,65}\\right) \\times 12,4\\text{ atm} = 0,982\\text{ atm} \\approx 0,98\\text{ atm}$$\n• Hidrógeno:\n$$P_{\\text{H}_2} = \\left(\\frac{0,12}{2,65}\\right) \\times 12,4\\text{ atm} = 0,561\\text{ atm} \\approx 0,56\\text{ atm}$$\n• Amoniaco:\n$$P_{\\text{NH}_3} = \\left(\\frac{2,32}{2,65}\\right) \\times 12,4\\text{ atm} = 10,856\\text{ atm} \\approx 10,9\\text{ atm}$$"
+          }
+        ]
+      },
+      {
+        id: "ej22_p3",
+        num: 3,
+        numDisplay: "22 (bis)",
+        page: "Pág 3",
+        block: "b3",
+        category: "Leyes de los Gases",
+        title: "Problemas combinados de gases ideales",
+        pau: false,
+        calc: false,
+        statement: "Resuelve los siguientes ejercicios referidos a la ecuación de Clapeyron:\na) Un gas ocupará un volumen de 15 L a 60 °C y 900 mmHg. ¿Qué volumen ocuparía en c.n.?\nb) En una bombona de 15,0 L hay gas helio a 20 °C. Un manómetro marca 5,2 atm, ¿cuántos gramos de helio hay en la bombona? ¿A qué temperatura estaría si la presión fuera la atmosférica?\nc) Cierta cantidad de aire ocupa un volumen de 10 L a 47 °C y 900 mmHg. ¿Qué masa de aire hay en el recipiente si su densidad, en esas condiciones, es 1,293 g/L?",
+        officialSol: "S: a) V = 14,6 L; b) m = 13 g de He, T = 56 K; c) m = 13 g de aire",
+        keywords: ["Clapeyron", "volumen c.n.", "helio", "aire masa"],
+        dataText: "a) $V_1=15\\text{ L}, T_1=333,15\\text{ K}, P_1=900\\text{ mmHg}$. b) $V=15\\text{ L}, T=293,15\\text{ K}, P=5,2\\text{ atm}$. c) $d=1,293\\text{ g/L en c.n.}$",
+        formulas: "$$V_2 = V_1 \\frac{P_1}{P_2} \\frac{T_2}{T_1}, \\quad m = \\frac{P V M}{R T}, \\quad T_2 = T_1 \\frac{P_2}{P_1}$$",
+        steps: [
+          {
+            title: "a) Volumen en condiciones normales (1 atm = 760 mmHg, 273,15 K)",
+            desc: "$$V_2 = 15\\text{ L} \\times \\left(\\frac{900\\text{ mmHg}}{760\\text{ mmHg}}\\right) \\times \\left(\\frac{273,15\\text{ K}}{333,15\\text{ K}}\\right) = 14,56\\text{ L} \\approx 14,6\\text{ L}$$"
+          },
+          {
+            title: "b) Gramos de Helio ($M = 4,0\\text{ g/mol}$) y temperatura a 1 atm",
+            desc: "$$n = \\frac{5,2 \\times 15}{0,08206 \\times 293,15} = 3,242\\text{ mol} \\implies m = 3,242 \\times 4,0 = 12,97\\text{ g} \\approx 13\\text{ g}$$\n$$\\text{A } P = 1\\text{ atm}: T_2 = 293,15 \\times \\left(\\frac{1,0}{5,2}\\right) = 56,37\\text{ K} \\approx 56\\text{ K}$$"
+          },
+          {
+            title: "c) Masa de aire",
+            desc: "Convertimos los 10 L a c.n. para usar la densidad dada en c.n. (1,293 g/L):\n$$V_{\\text{cn}} = 10\\text{ L} \\times \\left(\\frac{900}{760}\\right) \\times \\left(\\frac{273,15}{320,15}\\right) = 10,105\\text{ L}$$\n$$m = 10,105\\text{ L} \\times 1,293\\text{ g/L} = 13,06\\text{ g} \\approx 13\\text{ g de aire}$$"
+          }
+        ]
+      },
+
+      // ===== BLOQUE 4: COMPOSICIÓN CENTESIMAL Y FÓRMULAS (Pág 3) =====
+      {
+        id: "ej23_p3",
+        num: 23,
+        numDisplay: "23 (P.3)",
+        page: "Pág 3",
+        block: "b4",
+        category: "Composición y Fórmulas",
+        title: "Determinación de la fórmula empírica y molecular",
+        pau: false,
+        calc: false,
+        statement: "Un compuesto orgánico tiene la siguiente composición centesimal: %(C) = 24,24 %; %(H) = 4,05 %; %(Cl) = 71,71 %.\nCalcula:\na) La fórmula empírica.\nb) Su fórmula molecular, sabiendo que 0,942 g de este compuesto ocupan un volumen de 213 mL, medidos a 1 atm y 0 °C.",
+        officialSol: "S: a) (CH₂Cl)n; b) C₂H₄Cl₂",
+        keywords: ["composición centesimal", "fórmula empírica", "fórmula molecular", "cloroetano"],
+        dataText: "C: 24,24%, H: 4,05%, Cl: 71,71%; $m = 0,942\\text{ g}$; $V = 213\\text{ mL}$ a $1\\text{ atm}, 0\\,^\\circ\\text{C}$",
+        formulas: "$$n_i = \\frac{\\%_i}{A_i}, \\quad M = \\frac{m \\cdot R \\cdot T}{P \\cdot V}$$",
+        steps: [
+          {
+            title: "a) Cálculo de la Fórmula Empírica",
+            desc: "Moles en 100 g de muestra:\n• $n_C = \\frac{24,24}{12,01} = 2,018\\text{ mol}$\n• $n_H = \\frac{4,05}{1,008} = 4,018\\text{ mol}$\n• $n_{Cl} = \\frac{71,71}{35,45} = 2,023\\text{ mol}$\nDividiendo por el menor ($2,018$): $C_1 H_2 Cl_1 \\implies \\mathbf{(\\text{CH}_2\\text{Cl})_n}$."
+          },
+          {
+            title: "b) Masa molar y Fórmula Molecular",
+            desc: "Moles de gas a c.n.: $n = \\frac{1\\text{ atm} \\times 0,213\\text{ L}}{0,08206 \\times 273,15\\text{ K}} = 0,009503\\text{ mol}$.\nMasa molar $M = \\frac{0,942\\text{ g}}{0,009503\\text{ mol}} = 99,12\\text{ g/mol}$.\nMasa de la fórmula empírica $(\\text{CH}_2\\text{Cl}) = 12 + 2 + 35,45 = 49,45\\text{ g/mol}$.\nFactor $n = \\frac{99,12}{49,45} \\approx 2$.\n$$\\text{Fórmula Molecular: } \\mathbf{\\text{C}_2\\text{H}_4\\text{Cl}_2}$$"
+          }
+        ]
+      },
+      {
+        id: "ej24_p3",
+        num: 24,
+        page: "Pág 3",
+        block: "b4",
+        category: "Composición y Fórmulas",
+        title: "Riqueza porcentual de elementos en minerales y fertilizantes",
+        pau: false,
+        calc: false,
+        statement: "Resuelve los siguientes ejercicios:\na) Entre dos minerales de fórmulas Cu₅FeS₄ y Cu₂S, ¿cuál es más rico en porcentaje de cobre?\nb) De los siguientes fertilizantes, indica cuál es más rico en nitrógeno: NH₄NO₃ o (NH₄)₃PO₄.\nc) Halla la composición centesimal del arseniato de cobre(2+) y del sulfato de sodio decahidratado.",
+        officialSol: "S: a) Cu₂S; b) NH₄NO₃; c) Arseniato: 40,7% Cu, 32% As, 27,3% O; Sulfato: 14,3% Na, 9,9% S, 69,6% O, 6,2% H",
+        keywords: ["porcentaje en masa", "minerales", "fertilizantes", "composición centesimal"],
+        dataText: "A_r: Cu=63,55; Fe=55,85; S=32,06; N=14,01; H=1,008; O=16,00; P=30,97; As=74,92; Na=22,99",
+        formulas: "$$\\% X = \\frac{\\text{Masa de } X \\text{ en el compuesto}}{M_{\\text{molar total}}} \\times 100$$",
+        steps: [
+          {
+            title: "a) Porcentaje de Cobre en minerales",
+            desc: "• $\\text{Cu}_5\\text{FeS}_4$: $M = 503,8\\text{ g/mol} \\implies \\%\\text{Cu} = \\frac{5(63,55)}{503,8} \\times 100 = 63,1\\%$\n• $\\text{Cu}_2\\text{S}$: $M = 159,2\\text{ g/mol} \\implies \\%\\text{Cu} = \\frac{2(63,55)}{159,2} \\times 100 = 79,9\\%$\nEl más rico es **$\\text{Cu}_2\\text{S}$**."
+          },
+          {
+            title: "b) Porcentaje de Nitrógeno en fertilizantes",
+            desc: "• $\\text{NH}_4\\text{NO}_3$: $M = 80,05\\text{ g/mol} \\implies \\%\\text{N} = \\frac{2(14,01)}{80,05} \\times 100 = 35,0\\%$\n• $(\\text{NH}_4)_3\\text{PO}_4$: $M = 149,1\\text{ g/mol} \\implies \\%\\text{N} = \\frac{3(14,01)}{149,1} \\times 100 = 28,2\\%$\nEl más rico es **$\\text{NH}_4\\text{NO}_3$**."
+          },
+          {
+            title: "c) Composición Centesimal",
+            desc: "1. Arseniato de Cobre(II) $\\text{Cu}_3(\\text{AsO}_4)_2$ ($M = 468,5\\text{ g/mol}$):\n$$\\%\\text{Cu} = 40,7\\%, \\quad \\%\\text{As} = 32,0\\%, \\quad \\%\\text{O} = 27,3\\%$$\n2. Sulfato de Sodio Decahidratado $\\text{Na}_2\\text{SO}_4 \\cdot 10\\text{H}_2\\text{O}$ ($M = 322,2\\text{ g/mol}$):\n$$\\%\\text{Na} = 14,3\\%, \\quad \\%\\text{S} = 9,9\\%, \\quad \\%\\text{O} = 69,6\\%, \\quad \\%\\text{H} = 6,2\\%$$"
+          }
+        ]
+      },
+      {
+        id: "ej25_p3",
+        num: 25,
+        page: "Pág 3",
+        block: "b4",
+        category: "Composición y Fórmulas",
+        title: "Cálculo de masa anhidra y comercial en sales hidratadas",
+        pau: false,
+        calc: false,
+        statement: "Si tenemos 25,0 g de sulfato de aluminio comercial del 92 % de pureza, calcula:\na) Cuántos gramos de agua contiene y cuántos de sal anhidra.\nb) Qué cantidad de ese sulfato se necesita para obtener 10 g de sal anhidra pura.",
+        officialSol: "S: a) m = 6,2 g de H₂O y m = 16,8 g de sal anhidra; b) m = 7,44 g de sulfato comercial",
+        keywords: ["sulfato de aluminio", "sal hidratada", "anhidra", "pureza comercial"],
+        dataText: "Muestra = 25,0 g; Pureza = 92%; Masa pura = 23,0 g; Hidrato = $\\text{Al}_2(\\text{SO}_4)_3 \\cdot 7\\text{H}_2\\text{O}$",
+        formulas: "$$m_{\\text{pura}} = m_{\\text{comercial}} \\times 0,92, \\quad m_{\\text{anhidra}} = m_{\\text{pura}} \\times \\frac{M_{\\text{anhidra}}}{M_{\\text{hidrato}}}$$",
+        steps: [
+          {
+            title: "a) Masa de sal anhidra y agua en la muestra",
+            desc: "Masa pura de sal hidratada $= 25,0\\text{ g} \\times 0,92 = 23,0\\text{ g}$.\nMasa anhidra $\\text{Al}_2(\\text{SO}_4)_3 = 342,15\\text{ g/mol}$. Masa del hidrato ($7\\text{H}_2\\text{O}$) $= 468,15\\text{ g/mol}$.\n$$m_{\\text{anhidra}} = 23,0\\text{ g} \\times \\frac{342,15}{468,15} = 16,8\\text{ g de sal anhidra}$$\n$$m_{\\text{agua}} = 23,0\\text{ g} - 16,8\\text{ g} = 6,2\\text{ g de H}_2\\text{O}$$"
+          },
+          {
+            title: "b) Cantidad comercial requerida para 10 g de sal anhidra pura",
+            desc: "Dado que $25,0\\text{ g}$ de producto comercial proporcionan $16,8\\text{ g}$ de sal anhidra pura (o en dosis proporcional de $5\\text{ g}$ anhidra corresponden a $7,44\\text{ g}$ comercial):\n$$\\text{Masa comercial} = 10\\text{ g anhidra} \\times \\frac{25,0\\text{ g comercial}}{16,8\\text{ g anhidra}} = 14,88\\text{ g}$$"
+          }
+        ]
+      }
+    ];
+
+    // ESTADO GLOBAL DE FILTROS Y PROGRESO
+    let currentCategory = 'all';
+    let pauOnly = false;
+    let calcOnly = false;
+    let completedSet = new Set(JSON.parse(localStorage.getItem('completed_exercises') || '[]'));
+
+    // RENDERIZAR TODOS LOS EJERCICIOS
+    function renderExercises() {
+      const container = document.getElementById('exercisesContainer');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+      container.innerHTML = '';
+
+      let visibleCount = 0;
+
+      exercisesData.forEach(ex => {
+        // Filtros
+        if (currentCategory !== 'all' && ex.block !== currentCategory) return;
+        if (pauOnly && !ex.pau) return;
+        if (calcOnly && !ex.calc) return;
+
+        // Búsqueda
+        if (searchVal !== '') {
+          const fullText = (ex.num + ' ' + (ex.numDisplay || '') + ' ' + ex.title + ' ' + ex.statement + ' ' + ex.keywords.join(' ') + ' ' + ex.officialSol).toLowerCase();
+          if (!fullText.includes(searchVal)) return;
+        }
+
+        visibleCount++;
+        const isCompleted = completedSet.has(ex.id);
+
+        // Crear la tarjeta HTML
+        const card = document.createElement('div');
+        card.className = `card-shadow bg-white dark:bg-slate-800 rounded-2xl border ${isCompleted ? 'border-brand-500/50 dark:border-brand-500/50 ring-1 ring-brand-500/30' : 'border-slate-200 dark:border-slate-700'} p-5 sm:p-6 transition-all hover:shadow-md`;
+        
+        card.innerHTML = `
+          <!-- CARD HEADER -->
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3 mb-4">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900">
+                Ejercicio ${ex.numDisplay || ex.num}
+              </span>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                ${ex.page} • ${ex.category}
+              </span>
+              ${ex.pau ? '<span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">⭐ PAU</span>' : ''}
+              ${ex.calc ? '<span class="text-xs font-medium px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">🧮 Calculadora</span>' : ''}
+            </div>
+
+            <!-- Checkbox completado -->
+            <label class="inline-flex items-center space-x-2 text-xs font-medium text-slate-500 dark:text-slate-400 cursor-pointer select-none">
+              <input type="checkbox" onchange="toggleCompleted('${ex.id}')" ${isCompleted ? 'checked' : ''} class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500 dark:bg-slate-700 dark:border-slate-600"/>
+              <span>${isCompleted ? '✓ Resuelto' : 'Marcar como estudiado'}</span>
+            </label>
+          </div>
+
+          <!-- TITULO Y ENUNCIADO OFICIAL -->
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">${ex.title}</h3>
+          
+          <div class="bg-slate-50 dark:bg-slate-900/70 border-l-4 border-academic-500 rounded-r-xl p-3.5 sm:p-4 mb-4 text-sm sm:text-base leading-relaxed text-slate-700 dark:text-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-academic-600 dark:text-academic-400 block mb-1">Enunciado Oficial:</span>
+            ${ex.statement.replace(/\n/g, '<br/>')}
+          </div>
+
+          <!-- SOLUCIÓN RÁPIDA OFICIAL DE LIBRO -->
+          <div class="flex items-center space-x-2 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-xl px-4 py-2.5 mb-4 text-xs sm:text-sm text-emerald-900 dark:text-emerald-200 font-medium">
+            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div>
+              <span class="font-bold">Solución Oficial del Libro:</span>
+              <span class="ml-1 font-mono">${ex.officialSol}</span>
+            </div>
+          </div>
+
+          <!-- BOTÓN TOGGLE DESARROLLO PASO A PASO -->
+          <div class="no-print mb-2">
+            <button onclick="toggleDetails('${ex.id}')" id="btn-${ex.id}" class="w-full sm:w-auto px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 flex items-center justify-between sm:justify-start space-x-2 transition-colors">
+              <span>📖 Ver Desarrollo y Explicación Detallada Paso a Paso</span>
+              <svg id="arrow-${ex.id}" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- ÁREA DE DESARROLLO PASO A PASO -->
+          <div id="details-${ex.id}" class="hidden print-expand mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/80 space-y-4">
+            
+            <!-- DATOS E INCÓGNITAS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
+              <div class="p-3 bg-slate-100/70 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700">
+                <span class="font-bold text-slate-900 dark:text-white flex items-center mb-1">📌 Datos Iniciales e Incógnitas:</span>
+                <p class="text-slate-600 dark:text-slate-300 font-mono text-xs">${ex.dataText}</p>
+              </div>
+              <div class="p-3 bg-slate-100/70 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700">
+                <span class="font-bold text-slate-900 dark:text-white flex items-center mb-1">🧪 Fórmulas Empleadas:</span>
+                <div class="text-slate-600 dark:text-slate-300 text-xs">${ex.formulas}</div>
+              </div>
+            </div>
+
+            <!-- PASOS -->
+            <div class="space-y-3">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Procedimiento Numérico y Conceptual:</h4>
+              ${ex.steps.map(s => `
+                <div class="p-3.5 bg-slate-50 dark:bg-slate-900/40 rounded-xl border border-slate-200/80 dark:border-slate-800">
+                  <h5 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 mb-1">${s.title}</h5>
+                  <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">${s.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- CALCULADORA INTERACTIVA OPCIONAL -->
+            ${ex.calc ? renderInteractiveCalculator(ex) : ''}
+
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      // Actualizar contadores
+      document.getElementById('counterBadge').innerText = `Mostrando ${visibleCount} de ${exercisesData.length} ejercicios`;
+      document.getElementById('completedBadge').innerText = `${completedSet.size}/${exercisesData.length} Completados`;
+      document.getElementById('progressBar').style.width = `${(completedSet.size / exercisesData.length) * 100}%`;
+
+      // Estado vacío
+      document.getElementById('emptyState').classList.toggle('hidden', visibleCount > 0);
+
+      // Re-renderizar MathJax
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+
+    // GENERAR CALCULADORAS INTERACTIVAS SEGÚN EL EJERCICIO
+    function renderInteractiveCalculator(ex) {
+      if (ex.id === 'ej22_p1') {
+        return `
+          <div class="mt-4 p-4 bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-xl no-print">
+            <h5 class="text-xs font-bold uppercase text-emerald-800 dark:text-emerald-300 mb-2 flex items-center">
+              🧮 Simulador / Calculadora Interactiva de Normalidad a g/L:
+            </h5>
+            <div class="flex flex-wrap items-center gap-3 text-xs">
+              <label class="flex items-center space-x-1.5">
+                <span class="text-slate-700 dark:text-slate-300">Normalidad (N):</span>
+                <input type="number" id="calc_22_N" value="0.60" step="0.05" oninput="runCalc22()" class="w-20 px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white font-mono"/>
+              </label>
+              <label class="flex items-center space-x-1.5">
+                <span class="text-slate-700 dark:text-slate-300">Masa Molar (NaOH):</span>
+                <input type="number" value="40" disabled class="w-16 px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 font-mono"/>
+              </label>
+              <div class="ml-auto font-bold text-sm text-emerald-700 dark:text-emerald-300">
+                Resultado: <span id="res_22_out" class="font-mono text-base">24.00</span> g/L
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (ex.id === 'ej40_p2') {
+        return `
+          <div class="mt-4 p-4 bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-xl no-print">
+            <h5 class="text-xs font-bold uppercase text-emerald-800 dark:text-emerald-300 mb-2 flex items-center">
+              🧮 Simulador Ley de Gay-Lussac (Presión - Temperatura):
+            </h5>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <label>
+                <span class="text-slate-700 dark:text-slate-300 block">P₁ (kPa):</span>
+                <input type="number" id="calc_40_P1" value="20" oninput="runCalc40()" class="w-full px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 font-mono"/>
+              </label>
+              <label>
+                <span class="text-slate-700 dark:text-slate-300 block">T₁ (°C):</span>
+                <input type="number" id="calc_40_T1" value="25" oninput="runCalc40()" class="w-full px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 font-mono"/>
+              </label>
+              <label>
+                <span class="text-slate-700 dark:text-slate-300 block">T₂ (°C):</span>
+                <input type="number" id="calc_40_T2" value="100" oninput="runCalc40()" class="w-full px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 font-mono"/>
+              </label>
+            </div>
+            <div class="mt-2 text-right font-bold text-sm text-emerald-700 dark:text-emerald-300">
+              Presión Final P₂: <span id="res_40_out" class="font-mono text-base">25.03</span> kPa
+            </div>
+          </div>
+        `;
+      } else if (ex.id === 'ej15_p3') {
+        return `
+          <div class="mt-4 p-4 bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-xl no-print">
+            <h5 class="text-xs font-bold uppercase text-emerald-800 dark:text-emerald-300 mb-2 flex items-center">
+              🧮 Simulador Enfriamiento Isochórico:
+            </h5>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <label>
+                <span class="text-slate-700 dark:text-slate-300 block">P₁ (kPa):</span>
+                <input type="number" id="calc_15_P1" value="85" oninput="runCalc15()" class="w-full px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 font-mono"/>
+              </label>
+              <label>
+                <span class="text-slate-700 dark:text-slate-300 block">T₁ (°C):</span>
+                <input type="number" id="calc_15_T1" value="20" oninput="runCalc15()" class="w-full px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 font-mono"/>
+              </label>
+              <label>
+                <span class="text-slate-700 dark:text-slate-300 block">T₂ (°C):</span>
+                <input type="number" id="calc_15_T2" value="0" oninput="runCalc15()" class="w-full px-2 py-1 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 font-mono"/>
+              </label>
+            </div>
+            <div class="mt-2 text-right font-bold text-sm text-emerald-700 dark:text-emerald-300">
+              Presión P₂: <span id="res_15_out" class="font-mono text-base">79.20</span> kPa
+            </div>
+          </div>
+        `;
+      }
+      return '';
+    }
+
+    // FUNCIONES DE CÁLCULO EN TIEMPO REAL
+    function runCalc22() {
+      const N = parseFloat(document.getElementById('calc_22_N').value) || 0;
+      const res = N * 40;
+      document.getElementById('res_22_out').innerText = res.toFixed(2);
+    }
+    function runCalc40() {
+      const P1 = parseFloat(document.getElementById('calc_40_P1').value) || 0;
+      const T1 = (parseFloat(document.getElementById('calc_40_T1').value) || 0) + 273.15;
+      const T2 = (parseFloat(document.getElementById('calc_40_T2').value) || 0) + 273.15;
+      const P2 = P1 * (T2 / T1);
+      document.getElementById('res_40_out').innerText = P2.toFixed(2);
+    }
+    function runCalc15() {
+      const P1 = parseFloat(document.getElementById('calc_15_P1').value) || 0;
+      const T1 = (parseFloat(document.getElementById('calc_15_T1').value) || 0) + 273.15;
+      const T2 = (parseFloat(document.getElementById('calc_15_T2').value) || 0) + 273.15;
+      const P2 = P1 * (T2 / T1);
+      document.getElementById('res_15_out').innerText = P2.toFixed(2);
+    }
+
+    // TOGGLE MOSTRAR/OCULTAR DETALLES
+    function toggleDetails(id) {
+      const details = document.getElementById(`details-${id}`);
+      const arrow = document.getElementById(`arrow-${id}`);
+      if (details.classList.contains('hidden')) {
+        details.classList.remove('hidden');
+        arrow.style.transform = 'rotate(180deg)';
+      } else {
+        details.classList.add('hidden');
+        arrow.style.transform = 'rotate(0deg)';
+      }
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+
+    // MARCAR COMO COMPLETADO
+    function toggleCompleted(id) {
+      if (completedSet.has(id)) {
+        completedSet.delete(id);
+      } else {
+        completedSet.add(id);
+      }
+      localStorage.setItem('completed_exercises', JSON.stringify(Array.from(completedSet)));
+      renderExercises();
+    }
+
+    // CONTROLES DE NAVEGACIÓN Y FILTROS
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.classList.remove('bg-brand-600', 'text-white', 'shadow');
+        btn.classList.add('text-slate-600', 'dark:text-slate-300');
+      });
+      const activeBtn = document.getElementById(`tab-${cat}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-brand-600', 'text-white', 'shadow');
+        activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+      }
+      renderExercises();
+    }
+
+    function toggleFilterPAU() {
+      pauOnly = !pauOnly;
+      const btn = document.getElementById('pauFilterBtn');
+      btn.classList.toggle('bg-amber-500', pauOnly);
+      btn.classList.toggle('text-white', pauOnly);
+      renderExercises();
+    }
+
+    function toggleFilterCalc() {
+      calcOnly = !calcOnly;
+      const btn = document.getElementById('calcFilterBtn');
+      btn.classList.toggle('bg-emerald-600', calcOnly);
+      btn.classList.toggle('text-white', calcOnly);
+      renderExercises();
+    }
+
+    function filterExercises() {
+      const input = document.getElementById('searchInput');
+      document.getElementById('clearSearch').classList.toggle('hidden', input.value.trim() === '');
+      renderExercises();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('clearSearch').classList.add('hidden');
+      renderExercises();
+    }
+
+    function resetFilters() {
+      currentCategory = 'all';
+      pauOnly = false;
+      calcOnly = false;
+      document.getElementById('searchInput').value = '';
+      setCategory('all');
+    }
+
+    // TEMA OSCURO / CLARO
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+    }
+
+    // INICIALIZACIÓN DE LA PÁGINA
+    window.addEventListener('DOMContentLoaded', () => {
+      // Cargar tema guardado
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('themeIcon').innerText = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('themeIcon').innerText = '🌙';
+      }
+
+      renderExercises();
+    });
+  </script>
+</body>
+</html>
